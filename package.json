@@ -1,0 +1,38 @@
+{
+  "name": "cold-admin",
+  "private": true,
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --mode development",
+    "build": "vite build --mode production",
+    "preview": "vite preview",
+    "dev:mock": "cross-env NODE_ENV=development vite"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^0.2.7",
+    "@tinymce/tinymce-vue": "^4.0.7",
+    "axios": "^0.25.0",
+    "cropperjs": "^1.5.12",
+    "element-plus": "^2.0.1",
+    "emoji-mart-vue-fast": "^10.2.1",
+    "lodash": "^4.17.21",
+    "normalize.css": "^8.0.1",
+    "nprogress": "^0.2.0",
+    "pinia": "^2.0.11",
+    "pinia-plugin-persist": "^0.0.93",
+    "qs": "^6.10.3",
+    "vue": "^3.2.25",
+    "vue-router": "4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.2.0",
+    "cross-env": "^7.0.3",
+    "mockjs": "^1.1.0",
+    "sass": "^1.49.7",
+    "unplugin-auto-import": "^0.6.8",
+    "unplugin-vue-components": "^0.17.18",
+    "vite": "^2.8.0",
+    "vite-plugin-mock": "^2.9.6"
+  }
+}
