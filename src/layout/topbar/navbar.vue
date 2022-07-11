@@ -12,8 +12,8 @@
 <script setup>
 import {ref, watch} from "vue";
 import _, {isEmpty} from "lodash";
-import {useMenuStoreInstance} from "../../store/menu";
-import {useCore} from "../../core/hook";
+import useMenuStoreInstance from "../../store/menu";
+import useCore from "../../core/hook";
 
 const menuStore = useMenuStoreInstance()
 const {route, router} = useCore()

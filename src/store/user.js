@@ -20,8 +20,8 @@ export const useUserStore = defineStore({
     actions: {
         async login(form) {
             return UserService.login(form).then((res) => {
-                this.token = res.data.token
-                cache.set('token', res.data.token)
+                this.token = res.data.access_token
+                cache.set('token', res.data.access_token)
                 return res.data
             })
         },
@@ -44,6 +44,6 @@ export const useUserStore = defineStore({
     },
 })
 
-export function useUserStoreInstance(){
+export default function useUserStoreInstance(){
     return useUserStore(store)
 }

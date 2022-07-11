@@ -2,7 +2,7 @@
   <div class="page-sidebar">
     <div class="page-sidebar__logo" @click="toHome">
       <img src="@/assets/logo.png" class="logo">
-      <span class="title" v-if="!sidebarMenuCollapse">COLD-ADMIN</span>
+      <span class="title" v-if="!sidebarMenuCollapse">RIC-ADMIN</span>
     </div>
     <div class="page-sidebar__menu sidebar-menu">
       <el-menu
@@ -23,7 +23,7 @@
 
 <script setup>
 import SidebarItem from './sidebarItem.vue'
-import {useMenuStoreInstance} from "../../store/menu";
+import useMenuStoreInstance from "../../store/menu";
 import {useRouter} from "vue-router";
 import {computed} from "vue";
 

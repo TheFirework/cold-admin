@@ -26,11 +26,11 @@
 <script setup>
 import Navbar from './navbar.vue'
 import {computed} from "vue";
-import {useCore} from "../../core/hook";
-import {useUserStoreInstance} from "../../store/user";
-import {useMenuStoreInstance} from "../../store/menu";
+import useCore from "../../core/hook";
+import useUserStore from "../../store/user";
+import useMenuStoreInstance from "../../store/menu";
 
-const {router} = useCore(), userStore = useUserStoreInstance()
+const {router} = useCore(), userStore = useUserStore()
 const menuStore = useMenuStoreInstance()
 
 const sidebarMenuCollapse = computed(() => menuStore.sidebarMenuCollapse)

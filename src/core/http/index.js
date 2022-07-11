@@ -1,8 +1,8 @@
 import axios from 'axios'
-import http from "../config/http";
 import {ElMessage} from "element-plus";
-import router from "../router";
-import cache from "../core/utils/cache";
+import config from "../../config";
+import router from "../../router";
+import cache from "../utils/cache";
 
 const pendingMap = new Map();
 
@@ -15,10 +15,7 @@ function request(options, customOptions) {
     }, customOptions)
 
     const service = axios.create({
-        baseURL: http.baseUrl,
-        timeout: http.timeout,
-        responseType: http.responseType,
-        withCredentials:http.withCredentials,
+        ...config
     })
 
     service.interceptors.request.use(request => {
@@ -26,7 +23,7 @@ function request(options, customOptions) {
         baseOptions.repeat_request_cancel && addPending(request);
         let token = cache.get('token')
         if (token) {
-            request.headers['Token'] = token
+            request.headers['access_token'] = token
         }
         return request
     }, error => {
@@ -36,7 +33,7 @@ function request(options, customOptions) {
     service.interceptors.response.use(response => {
         removePending(response.config);
 
-        if (baseOptions.code_message_show && response.data && response.data.code !== 200) {
+        if (baseOptions.code_message_show && response.data && response.data.code !== 10000) {
             ElMessage.error(response.data.msg)
             customErrorCodeHandle(response.data)
             return Promise.reject(response.data);
@@ -60,10 +57,14 @@ export default request
  */
 function customErrorCodeHandle(data) {
     switch (data.code) {
-        case 401:
-            setTimeout(() => {
-                router.push('/login')
-            }, 1000)
+        case 10002:
+            ElMessage({
+                type:'error',
+                message:'登录失效，请重新登录！',
+                onClose:()=>{
+                    router.push('/login')
+                }
+            })
             break;
     }
 }

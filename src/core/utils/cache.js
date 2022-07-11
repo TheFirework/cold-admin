@@ -1,4 +1,4 @@
-export default {
+const cache =  {
     /**
      * 设置
      * @param key 关键字
@@ -62,3 +62,5 @@ export default {
         localStorage.clear()
     }
 }
+
+export default cache

@@ -17,6 +17,6 @@ export const useRouteStore = defineStore({
     },
 })
 
-export function useRouteStoreInstance() {
+export default function useRouteStoreInstance() {
     return useRouteStore(store)
 }

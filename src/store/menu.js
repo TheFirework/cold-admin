@@ -1,10 +1,10 @@
 import {defineStore} from "pinia";
 import store from "./index";
-import {useRouteStoreInstance} from "./route";
+import useRouteStoreInstance from "./route";
 import cache from "../core/utils/cache";
 import {revisePath} from "../core/utils/path";
 import {deepTree} from "../core/utils/array";
-import MenuService from "../api/menu";
+import UserService from "../api/user";
 
 export const useMenuStore = defineStore({
     id: 'menu',
@@ -14,7 +14,7 @@ export const useMenuStore = defineStore({
     }),
     actions: {
         async queryMenuList() {
-            return MenuService.getMenuList().then((res) => {
+            return UserService.getPermMenu().then((res) => {
                 if (res.code === 200) {
                     const list = res.data.filter((e) => e.type <= 2).map((e) => {
                         return {
@@ -43,12 +43,12 @@ export const useMenuStore = defineStore({
                 }
             })
         },
-        collapse(value){
+        collapse(value) {
             this.sidebarMenuCollapse = value
         }
     },
 })
 
-export function useMenuStoreInstance() {
+export default function useMenuStoreInstance() {
     return useMenuStore(store)
 }

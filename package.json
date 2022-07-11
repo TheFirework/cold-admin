@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "vite --mode development",
+    "dev": "vite --mode development --host",
     "build": "vite build --mode production",
-    "preview": "vite preview",
+    "preview": "vite preview --host",
     "dev:mock": "cross-env NODE_ENV=development vite"
   },
   "dependencies": {

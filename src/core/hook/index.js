@@ -1,7 +1,7 @@
 import {useRoute, useRouter} from "vue-router";
 import {useStore} from "../../store";
 
-export function useCore(){
+export default function useCore(){
     const route = useRoute()
     const router = useRouter()
     const store = useStore()

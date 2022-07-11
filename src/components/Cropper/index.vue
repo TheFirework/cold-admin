@@ -307,7 +307,7 @@ function onSelectImage(uploadFile) {
   margin-top: 15px;
 }
 
-.control ::v-deep(.el-button) {
+.control :deep(.el-button) {
   margin-right: 8px;
   margin-bottom: 15px;
 }
@@ -326,7 +326,7 @@ function onSelectImage(uploadFile) {
   margin-top: 15px;
 }
 
-.actions ::v-deep(.el-button-group) {
+.actions :deep(.el-button-group) {
   margin-right: 8px;
 }
 </style>
