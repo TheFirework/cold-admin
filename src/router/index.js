@@ -23,9 +23,6 @@ router.beforeEach(async (to, from, next) => {
     const userStore = useUserStoreInstance()
     const menuStore = useMenuStoreInstance()
     const tagViewStore = useTagViewStoreInstance()
-    if(to.path.indexOf('/404') === 0){
-        return next();
-    }
     // 是否登录
     if (userStore.isLogin) {
         // 登录后无法进去登录页面
@@ -33,18 +30,10 @@ router.beforeEach(async (to, from, next) => {
             return next('/')
         } else {
             if(!userStore.user){
-                await userStore.queryUserInfo().catch(()=>{
-                    router.push({
-                        path:'/error'
-                    })
-                })
+                await userStore.queryUserInfo()
             }
             if(!menuStore.menuList.length){
-                await menuStore.queryMenuList().catch(()=>{
-                    router.push({
-                        path:'/error'
-                    })
-                })
+                await menuStore.queryMenuList()
             }
             tagViewStore.addTag({
                 keepAlive: to.meta.keepAlive,

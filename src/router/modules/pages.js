@@ -20,7 +20,7 @@ const routes = [
                 name: 'home',
                 component: () => import('@/pages/home/home.vue'),
                 meta: {
-                    title: '首页',
+                    title: '数据统计',
                     keepAlive:false,
                 }
             },
