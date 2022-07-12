@@ -32,30 +32,7 @@ const routes = [
                     title: '个人设置',
                 }
             },
-            {
-                path: 'system/menu',
-                name: 'menu',
-                component: () => import('@/pages/system/menu.vue'),
-                meta: {
-                    title: '菜单管理',
-                }
-            },
-            {
-                path: 'system/role',
-                name: 'role',
-                component: () => import('@/pages/system/role.vue'),
-                meta: {
-                    title: '角色管理',
-                }
-            },
-            {
-                path: 'system/user',
-                name: 'user',
-                component: () => import('@/pages/system/user.vue'),
-                meta: {
-                    title: '用户管理',
-                }
-            },
+
         ],
     },
     {

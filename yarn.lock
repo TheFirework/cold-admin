@@ -1023,6 +1023,11 @@ tinymce@^5.5.0:
   resolved "https://registry.npmmirror.com/tinymce/-/tinymce-5.10.3.tgz#9485cf00159fd70c4948cb5e9dd49bce2a775899"
   integrity sha512-O59ssHNnujWvSk5Gt8hIGrdNCMKVWVQv9F8siAgLTRgTh0t3NDHrP1UlLtCxArUi9DPWZvlBeUz8D5fJTu7vnA==
 
+tinymce@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.npmmirror.com/tinymce/-/tinymce-6.0.1.tgz#ec832632e398661507cc51b2a7574d17655fb9c8"
+  integrity sha512-+y3Lhm65GFs87gUfKuSWm2JA6ULHCC29trof4umIk2+TT+ql2poSsqsmRCSPN4elEo4EssIgEPFVRyPvrS/pDg==
+
 to-regex-range@^5.0.1:
   version "5.0.1"
   resolved "https://registry.npmmirror.com/to-regex-range/-/to-regex-range-5.0.1.tgz#1648c44aae7c8d988a326018ed72f5b4dd0392e4"

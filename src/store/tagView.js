@@ -15,7 +15,7 @@ export const useTagViewStore = defineStore({
         ],
     }),
     actions:{
-        addTag(item){
+        add(item){
             const index = this.list.findIndex(
                 (e) => e.value.split('?')[0] === item.value.split('?')[0]
             )
@@ -67,6 +67,6 @@ export const useTagViewStore = defineStore({
     },
 })
 
-export default function useTagViewStoreInstance() {
+export function useTagViewStoreInstance() {
     return useTagViewStore(store)
 }

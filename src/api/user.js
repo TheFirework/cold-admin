@@ -2,15 +2,6 @@ import request from "../core/http";
 
 
 export default class UserService {
-
-    // 图片验证码
-    static async getCaptcha(){
-        return request({
-            method: "GET",
-            url: '/vercode',
-        });
-    }
-
     // 登录
     static async login(data) {
         return request({
@@ -32,15 +23,7 @@ export default class UserService {
     static async getUserInfo() {
         return request({
             method: "GET",
-            url: '/user/info',
-        });
-    }
-
-    // 用户权限菜单
-    static async getPermMenu(){
-        return request({
-            method: "GET",
-            url: '/menu/list',
+            url: '/user/getUserInfo',
         });
     }
 }

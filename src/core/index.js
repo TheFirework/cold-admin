@@ -1,4 +1,4 @@
-import useRouteStoreInstance from "../store/route";
+import {useRouteStoreInstance} from "../store/route";
 import {addRoutes} from "../router";
 
 export default async function bootstrap() {

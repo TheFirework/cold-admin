@@ -1,41 +1,33 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
 import NProgress from 'nprogress';
 import routes from "./modules/pages";
-import useUserStoreInstance, {useUserStore} from "../store/user";
+import {useUserStoreInstance} from "../store/user";
 import {cloneDeep} from "lodash";
-import useTagViewStoreInstance, {useTagViewStore} from "../store/tagView";
+import {useTagViewStore} from "../store/tagView";
 import {importPages} from "../core/utils/file";
-import useMenuStoreInstance from "../store/menu";
 
 
 NProgress.configure({showSpinner: false});
 
-const router = createRouter({
+export const router = createRouter({
     history: createWebHashHistory(),
     routes: routes
 })
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach((to, from, next) => {
     if (!NProgress.isStarted()) {
         NProgress.start()
     }
 
     const userStore = useUserStoreInstance()
-    const menuStore = useMenuStoreInstance()
-    const tagViewStore = useTagViewStoreInstance()
+    const tagViewStore = useTagViewStore()
     // 是否登录
     if (userStore.isLogin) {
         // 登录后无法进去登录页面
         if (to.path.indexOf('/login') === 0) {
             return next('/')
         } else {
-            if(!userStore.user){
-                await userStore.queryUserInfo()
-            }
-            if(!menuStore.menuList.length){
-                await menuStore.queryMenuList()
-            }
-            tagViewStore.addTag({
+            tagViewStore.add({
                 keepAlive: to.meta.keepAlive,
                 label: to.meta.title,
                 value: to.path,
