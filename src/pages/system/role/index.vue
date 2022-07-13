@@ -27,7 +27,7 @@
 <!--          current-row-key="id"-->
 <!--          fit-->
 <!--          max-height="700"-->
-<!--          size="mini"-->
+<!--          size="small"-->
 <!--          style="width: 100%"-->
 <!--      >-->
 <!--        <el-table-column align="center" label="序号" prop="id"/>-->
@@ -37,11 +37,11 @@
 <!--        <el-table-column :formatter="(row)=>formatter(row,'createDate')" align="center" label="时间" prop="createDate"/>-->
 <!--        <el-table-column align="center" fixed="right" label="操作" width="150">-->
 <!--          <template #default="scope">-->
-<!--            <el-button size="mini" type="primary" @click="handleEdit(scope.row)"-->
+<!--            <el-button size="small" type="primary" @click="handleEdit(scope.row)"-->
 <!--            >编辑-->
 <!--            </el-button>-->
 <!--            <el-button-->
-<!--                size="mini"-->
+<!--                size="small"-->
 <!--                type="danger"-->
 <!--                @click="handleDelete(scope.row)"-->
 <!--            >删除-->

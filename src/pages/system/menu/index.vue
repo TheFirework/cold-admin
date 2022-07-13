@@ -3,7 +3,7 @@
     <template #header>
       <el-button type="primary" @click="handleCreate">新增</el-button>
     </template>
-    <el-table :data="list" :tree-props="{ children: 'children' }" border default-expand-all row-key="id" size="mini">
+    <el-table :data="list" :tree-props="{ children: 'children' }" border default-expand-all row-key="id" size="small">
       <el-table-column align="left" label="名称" prop="title" width="260"/>
       <el-table-column align="left" label="标识" prop="name" width="260"/>
       <el-table-column align="center" label="图标" prop="icon" width="100">
@@ -56,9 +56,9 @@
       />
       <el-table-column align="center" fixed="right" label="操作" width="150">
         <template #default="scope">
-          <el-button size="mini" type="text" @click="handleCreateToRaw(scope.row.id)">新增</el-button>
-          <el-button size="mini" type="text" @click="handleEdit(scope.row)">编辑</el-button>
-          <el-button size="mini" type="text" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button size="small" type="text" @click="handleCreateToRaw(scope.row.id)">新增</el-button>
+          <el-button size="small" type="text" @click="handleEdit(scope.row)">编辑</el-button>
+          <el-button size="small" type="text" @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

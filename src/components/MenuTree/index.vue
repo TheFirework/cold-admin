@@ -46,6 +46,7 @@ export default {
   setup(props, context) {
     const tree = ref(null);
     const popover = ref(null);
+    const name = ref('')
     const state = reactive({
       filterValue: "",
       list: [],
@@ -67,22 +68,21 @@ export default {
       return deepTree(state.list);
     });
 
-    const name = computed(() => {
-      const item = props.menuList.find((e) => e.id == props.value);
-      return item ? item.name : "一级菜单";
-    });
 
     const currentChange = ({id}) => {
       context.emit("update:value", id);
     };
 
     const initMenuList = () => {
-      let list = props.menuList.filter((e) => e.type != 2);
+      let list = props.menuList.filter((e) => e.type !== 2);
       list.unshift({
         name: "一级菜单",
         id: 0,
       });
       state.list = list;
+
+      const item = props.menuList.find((e) => e.id === props.value);
+      name.value =  item ? item.name : "一级菜单";
     };
 
     const filterNode = (value, data) => {
@@ -108,6 +108,9 @@ export default {
 </script>
 
 <style lang="scss">
+.menu-tree{
+  width: 100%;
+}
 .popper-menu-tree {
   width: 480px;
   box-sizing: border-box;

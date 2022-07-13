@@ -22,7 +22,7 @@
 <!--          current-row-key="id"-->
 <!--          fit-->
 <!--          height="600"-->
-<!--          size="mini"-->
+<!--          size="small"-->
 <!--          style="width: 100%"-->
 <!--          @selection-change="handleSelectionChange"-->
 <!--      >-->
@@ -53,8 +53,8 @@
 <!--        <el-table-column align="center" label="备注" prop="memo" width="250"/>-->
 <!--        <el-table-column align="center" fixed="right" label="操作" width="230">-->
 <!--          <template #default="scope">-->
-<!--            <el-button size="mini" type="primary" @click="handleEdit(scope.row)">编辑</el-button>-->
-<!--            <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>-->
+<!--            <el-button size="small" type="primary" @click="handleEdit(scope.row)">编辑</el-button>-->
+<!--            <el-button size="small" type="danger" @click="handleDelete(scope.row)">删除</el-button>-->
 <!--          </template>-->
 <!--        </el-table-column>-->
 <!--      </el-table>-->

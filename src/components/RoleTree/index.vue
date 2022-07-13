@@ -107,6 +107,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.role-tree{
+  width: 100%;
+}
 .scroller {
   border: 1px solid #dcdfe6;
   margin-top: 5px;

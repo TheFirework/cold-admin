@@ -11,7 +11,7 @@
         <el-col v-for="(item, index) in list" :key="index" :span="3">
           <el-button
               :class="{ 'is-active': item === value }"
-              size="mini"
+              size="small"
               @click="onSelect(item)"
           >
             <svg-icon :name="item"/>
@@ -59,6 +59,9 @@ export default {
 </script>
 
 <style lang="scss">
+.menu-icons{
+  width: 100%;
+}
 .popper-menu-icon {
   width: 480px;
   box-sizing: border-box;
