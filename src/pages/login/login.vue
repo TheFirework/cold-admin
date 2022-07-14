@@ -18,7 +18,7 @@
 
 <script setup>
 import {onMounted, reactive, ref} from "vue";
-import {useUserStoreInstance} from "../../store/user";
+import useUserStoreInstance from "../../store/user";
 import {useMenuStore} from "../../store/menu";
 import {useCore} from "../../core/hook";
 

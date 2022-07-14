@@ -1,8 +1,8 @@
 import axios from 'axios'
-import http from "../config/http";
 import {ElMessage} from "element-plus";
-import router from "../router";
-import cache from "../core/utils/cache";
+import cache from "../utils/cache";
+import config from "../../config";
+import useMenuStoreInstance from "../../store/menu";
 
 const pendingMap = new Map();
 
@@ -15,10 +15,7 @@ function request(options, customOptions) {
     }, customOptions)
 
     const service = axios.create({
-        baseURL: http.baseUrl,
-        timeout: http.timeout,
-        responseType: http.responseType,
-        withCredentials:http.withCredentials,
+        ...config
     })
 
     service.interceptors.request.use(request => {
@@ -61,9 +58,7 @@ export default request
 function customErrorCodeHandle(data) {
     switch (data.code) {
         case 401:
-            setTimeout(() => {
-                router.push('/login')
-            }, 1000)
+            useMenuStoreInstance().logout()
             break;
     }
 }

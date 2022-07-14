@@ -1,7 +1,7 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
 import NProgress from 'nprogress';
 import routes from "./modules/pages";
-import {useUserStoreInstance} from "../store/user";
+import useUserStoreInstance from "../store/user";
 import {cloneDeep} from "lodash";
 import {useTagViewStore} from "../store/tagView";
 import {importPages} from "../core/utils/file";
@@ -10,7 +10,7 @@ import {importPages} from "../core/utils/file";
 NProgress.configure({showSpinner: false});
 
 export const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHashHistory(import.meta.env.BASE_URL),
     routes: routes
 })
 

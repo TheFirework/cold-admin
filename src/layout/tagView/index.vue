@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import {useTagViewStoreInstance} from "../../store/tagView";
+import useTagViewStoreInstance from "../../store/tagView";
 import {useCore} from "../../core/hook";
 import {computed, onMounted, ref} from "vue";
 import Scroll from "./scroll.vue";

@@ -23,7 +23,7 @@
 
 <script setup>
 import SidebarItem from './sidebarItem.vue'
-import {useMenuStoreInstance} from "../../store/menu";
+import useMenuStoreInstance from "../../store/menu";
 import {useRouter} from "vue-router";
 import {computed} from "vue";
 

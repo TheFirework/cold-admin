@@ -5,6 +5,7 @@ import {viteMockServe} from 'vite-plugin-mock';
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import {ElementPlusResolver} from "unplugin-vue-components/resolvers";
+import visualizer from "rollup-plugin-visualizer";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -27,8 +28,23 @@ export default defineConfig({
         preprocessorOptions: {
             scss: {
                 additionalData: `@use "@/styles/variables.scss" as *;`,
+                charset: false,
             },
         },
+        postcss: {
+            plugins: [
+                {
+                    postcssPlugin: 'internal:charset-removal',
+                    AtRule: {
+                        charset: (atRule) => {
+                            if (atRule.name === 'charset') {
+                                atRule.remove();
+                            }
+                        }
+                    }
+                }
+            ]
+        }
     },
     plugins: [
         vue(),
@@ -40,7 +56,7 @@ export default defineConfig({
             dirs: ['src/components'],
             resolvers: [
                 ElementPlusResolver({
-                    importStyle: "sass",
+                    importStyle: "scss",
                 }),
             ],
         }),
@@ -52,5 +68,21 @@ export default defineConfig({
             supportTs: false, // 打开后，可以读取 ts 文件模块。 请注意，打开后将无法监视.js 文件。
             watchFiles: true, // 监视文件更改
         }),
+        visualizer({
+            open: true,
+            gzipSize: true,
+            brotliSize: true,
+        }),
     ],
+    build: {
+        sourcemap: false,
+        polyfillDynamicImport: false,
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    lodash: ['lodash'],
+                }
+            }
+        }
+    }
 })

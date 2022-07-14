@@ -31,8 +31,8 @@ import Topbar from './topbar/topbar.vue'
 import TagView from './tagView/index.vue'
 import router from "../router";
 import {computed} from "vue";
-import {useTagViewStoreInstance} from "../store/tagView";
-import {useMenuStoreInstance} from "../store/menu";
+import useTagViewStoreInstance from "../store/tagView";
+import useMenuStoreInstance from "../store/menu";
 
 const tagViewStore = useTagViewStoreInstance()
 const menuStore = useMenuStoreInstance()

@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 import store from "./index";
-import {useRouteStoreInstance} from "./route";
+import useRouteStoreInstance from "./route";
 import cache from "../core/utils/cache";
 import {revisePath} from "../core/utils/path";
 import {deepTree} from "../core/utils/array";
@@ -49,6 +49,6 @@ export const useMenuStore = defineStore({
     },
 })
 
-export function useMenuStoreInstance() {
+export default function  useMenuStoreInstance() {
     return useMenuStore(store)
 }

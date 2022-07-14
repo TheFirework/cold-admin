@@ -27,8 +27,8 @@
 import Navbar from './navbar.vue'
 import {computed} from "vue";
 import {useCore} from "../../core/hook";
-import {useUserStoreInstance} from "../../store/user";
-import {useMenuStoreInstance} from "../../store/menu";
+import useUserStoreInstance from "../../store/user";
+import useMenuStoreInstance from "../../store/menu";
 
 const {router} = useCore(), userStore = useUserStoreInstance()
 const menuStore = useMenuStoreInstance()

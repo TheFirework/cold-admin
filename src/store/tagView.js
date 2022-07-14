@@ -67,6 +67,6 @@ export const useTagViewStore = defineStore({
     },
 })
 
-export function useTagViewStoreInstance() {
+export default function useTagViewStoreInstance() {
     return useTagViewStore(store)
 }

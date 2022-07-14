@@ -90,8 +90,8 @@ export default [
                         name: "chart",
                         parentId: 0,
                         path: "/chart",
-                        type: 1,
-                        viewPath: null,
+                        type: 2,
+                        viewPath: 'pages/chart/index.vue',
                     },
                     // Table
                     {
@@ -103,8 +103,8 @@ export default [
                         name: "table",
                         parentId: 0,
                         path: "/table",
-                        type: 1,
-                        viewPath: null,
+                        type: 2,
+                        viewPath: 'pages/table/index.vue',
                     },
                     // 主题
                     // 国际化

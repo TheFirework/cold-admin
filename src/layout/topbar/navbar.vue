@@ -11,8 +11,8 @@
 
 <script setup>
 import {ref, watch} from "vue";
-import _, {isEmpty} from "lodash";
-import {useMenuStoreInstance} from "../../store/menu";
+import _ from "lodash";
+import useMenuStoreInstance from "../../store/menu";
 import {useCore} from "../../core/hook";
 
 const menuStore = useMenuStoreInstance()
@@ -49,7 +49,7 @@ watch(
           .flattenDeep()
           .value()
 
-      if (isEmpty(list.value)) {
+      if (_.isEmpty(list.value)) {
         list.value.push(route);
       }
     },

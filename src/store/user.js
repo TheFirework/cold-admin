@@ -44,6 +44,6 @@ export const useUserStore = defineStore({
     },
 })
 
-export function useUserStoreInstance(){
+export default function useUserStoreInstance(){
     return useUserStore(store)
 }
