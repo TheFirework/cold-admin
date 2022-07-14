@@ -78,8 +78,8 @@
         <el-form-item label="节点名称" prop="name" required>
           <el-input v-model="temp.name" placeholder="请输入节点名称"></el-input>
         </el-form-item>
-        <el-form-item label="标识" prop="uniqueName" required>
-          <el-input v-model="temp.uniqueName" placeholder="请输入标识名称"></el-input>
+        <el-form-item label="标识" prop="title" required>
+          <el-input v-model="temp.title" placeholder="请输入标识名称"></el-input>
         </el-form-item>
         <el-form-item label="上级节点" prop="parentId">
           <menu-tree v-model:value="temp.parentId" :menuList="menuList"/>
@@ -168,7 +168,7 @@ const resetTemp = () => {
   temp.value = {
     type: 0,
     name: "",
-    uniqueName: "",
+    title: "",
     parentId: "",
     isShow: 1,
     icon: "",
