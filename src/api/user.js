@@ -26,4 +26,13 @@ export default class UserService {
             url: '/user/getUserInfo',
         });
     }
+
+    // 用户列表
+    static async getUserList({size, current, ...data}) {
+        return request({
+            method: "POST",
+            url: `/user/dataList/${current}/${size}`,
+            data
+        })
+    }
 }

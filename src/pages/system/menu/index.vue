@@ -8,7 +8,7 @@
       <el-table-column align="left" label="标识" prop="name" width="260"/>
       <el-table-column align="center" label="图标" prop="icon" width="100">
         <template #default="scope">
-          <icon-svg v-if="scope.row.icon" :name="scope.row.icon"/>
+          <svg-icon v-if="scope.row.icon" :name="scope.row.icon"/>
         </template>
       </el-table-column>
       <el-table-column
@@ -71,8 +71,8 @@
       <el-form ref="dataForm" :model="temp" :rules="rules" label-width="100px">
         <el-form-item label="节点类型" prop="type">
           <el-radio-group v-model="temp.type">
-            <el-radio :label="0">目录</el-radio>
-            <el-radio :label="1">菜单</el-radio>
+            <el-radio :label="1">目录</el-radio>
+            <el-radio :label="2">菜单</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="节点名称" prop="name" required>
@@ -87,7 +87,7 @@
         <el-form-item label="节点路由" prop="router">
           <el-input v-model="temp.url" placeholder="请输入节点路由"/>
         </el-form-item>
-        <el-form-item v-if="temp.type === 1" label="路由缓存" prop="keepAlive">
+        <el-form-item v-if="temp.type === 2" label="路由缓存" prop="keepAlive">
           <el-radio-group v-model="temp.keepAlive">
             <el-radio :label="1">开启</el-radio>
             <el-radio :label="0">关闭</el-radio>
@@ -99,7 +99,7 @@
             <el-radio :label="0">否</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-if="temp.type === 1" label="文件路径" prop="viewPath">
+        <el-form-item v-if="temp.type === 2" label="文件路径" prop="viewPath">
           <menu-file-path v-model:value="temp.viewPath" placeholder="请选择"/>
         </el-form-item>
         <el-form-item label="节点图标" prop="icon">
@@ -122,24 +122,33 @@
   </el-card>
 </template>
 
+<script>
+export default {
+  name:'menu'
+}
+</script>
 <script setup>
 import {ref} from "vue";
 import MenuService from "../../../api/menu";
+import {deepTree} from "../../../core/utils/array";
+import {cloneDeep} from "lodash";
+import {ElMessage, ElMessageBox,ElNotification} from "element-plus";
 
 const typeOptions = {
-  0: '目录',
-  1: '菜单'
+  1: '目录',
+  2: '菜单'
 }
 const dialogTitleMap = {
   update: '编辑',
   create: '新增'
 }
+const dataForm = ref(null)
 const list = ref([])
 const menuList = ref([])
 let dialogFormVisible = ref(false)
 const dialogStatus = ref('')
 const temp = ref({
-  type: 0,
+  type: 1,
   name: "",
   title: "",
   parentId: "",
@@ -155,18 +164,17 @@ const rules = ref({
 })
 
 
-const init = async () => {
+const queryMenuList = async () => {
   const result = await MenuService.getMenuList()
   if (result.code === 200) {
-    menuList.value = result.data
+    menuList.value = cloneDeep(result.data)
+    list.value = deepTree(result.data);
   }
 }
 
-init()
-
 const resetTemp = () => {
   temp.value = {
-    type: 0,
+    type: 1,
     name: "",
     title: "",
     parentId: "",
@@ -178,19 +186,63 @@ const resetTemp = () => {
   }
 }
 
-const refresh = () => {
-}
 const handleCreate = () => {
   resetTemp()
   dialogStatus.value = 'create'
   dialogFormVisible.value = true
 }
-const handleCreateToRaw = () => {
+const handleCreateToRaw = (row) => {
+  resetTemp();
+  temp.value.parentId = row.id;
+  temp.value.url = row.url
+  dialogStatus.value = "create";
+  dialogFormVisible.value = true;
 }
-const handleEdit = () => {
+const handleEdit = (row) => {
+  temp.value = row
+  dialogStatus.value = "update";
+  dialogFormVisible.value = true;
 }
-const handleDelete = () => {
+const createData = () => {
+  dataForm.value.validate(async (valid) => {
+    if (valid) {
+      dialogFormVisible.value = false;
+      ElNotification({
+        title: "权限",
+        message: "创建成功",
+        type: "success",
+        duration: 2000,
+      })
+    }
+  });
 }
+const updateData = () => {
+  dataForm.value.validate(async (valid) => {
+    if (valid) {
+      ElNotification({
+        title: "权限",
+        message: "更新完成",
+        type: "success",
+        duration: 2000,
+      })
+    }
+  });
+}
+const handleDelete = (row) => {
+  ElMessageBox.confirm(`是否删除此项数据？`, "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  })
+      .then(async () => {
+        ElMessage.success("删除成功!");
+      })
+      .catch(() => {
+        console.log("已取消删除");
+      });
+}
+
+queryMenuList()
 </script>
 
 <style lang="scss" scoped></style>

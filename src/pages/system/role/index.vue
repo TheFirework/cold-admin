@@ -1,272 +1,221 @@
-<!--<template>-->
-<!--  <div class="app-container">-->
-<!--    <div class="app-body">-->
-<!--      <div class="custom-table-header">-->
-<!--        <div class="custom-table-header-action">-->
-<!--          <div class="refresh-button" @click="refresh">-->
-<!--            <i class="el-icon-refresh"></i>-->
-<!--          </div>-->
-<!--          <el-button size="small" type="primary" @click="handleCreate"-->
-<!--          >新增-->
-<!--          </el-button>-->
-<!--        </div>-->
-<!--        <div class="table-search-box">-->
-<!--          <el-input-->
-<!--              v-model="searchKey"-->
-<!--              class="table-search-key"-->
-<!--              placeholder="请输入名称"-->
-<!--          />-->
-<!--          <el-button size="small" type="primary" @click="handleSearch"-->
-<!--          >搜索-->
-<!--          </el-button>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <el-table-->
-<!--          :data="list"-->
-<!--          border-->
-<!--          current-row-key="id"-->
-<!--          fit-->
-<!--          max-height="700"-->
-<!--          size="small"-->
-<!--          style="width: 100%"-->
-<!--      >-->
-<!--        <el-table-column align="center" label="序号" prop="id"/>-->
-<!--        <el-table-column align="center" label="名称" prop="name" width="150"/>-->
-<!--        <el-table-column align="center" label="标识" prop="roleNo"/>-->
-<!--        <el-table-column align="center" label="排序" prop="orderNo" width="150"/>-->
-<!--        <el-table-column :formatter="(row)=>formatter(row,'createDate')" align="center" label="时间" prop="createDate"/>-->
-<!--        <el-table-column align="center" fixed="right" label="操作" width="150">-->
-<!--          <template #default="scope">-->
-<!--            <el-button size="small" type="primary" @click="handleEdit(scope.row)"-->
-<!--            >编辑-->
-<!--            </el-button>-->
-<!--            <el-button-->
-<!--                size="small"-->
-<!--                type="danger"-->
-<!--                @click="handleDelete(scope.row)"-->
-<!--            >删除-->
-<!--            </el-button>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
-<!--      </el-table>-->
-<!--    </div>-->
+<template>
+  <el-card>
+    <template #header>
+      <el-row justify="space-between">
+        <el-form inline class="card-header">
+          <el-form-item>
+            <el-input v-model="searchKey" clearable placeholder="请输入名称"/>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="handleSearch">搜索</el-button>
+          </el-form-item>
+        </el-form>
+        <div>
+          <el-button type="primary" @click="handleCreate">新增</el-button>
+        </div>
+      </el-row>
+    </template>
 
-<!--    <el-dialog-->
-<!--        v-model="dialogFormVisible"-->
-<!--        :close-on-click-modal="false"-->
-<!--        :title="dialogTitleMap[dialogStatus]"-->
-<!--        style="width: 650px"-->
-<!--    >-->
-<!--      <el-form ref="dataForm" :model="temp" :rules="rules" label-width="100px">-->
-<!--        <el-form-item label="名称" prop="name">-->
-<!--          <el-input v-model="temp.name" placeholder="请填写名称"/>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="标识" prop="roleNo">-->
-<!--          <el-input v-model="temp.roleNo" placeholder="请填写标识"/>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="排序" prop="orderNo">-->
-<!--          <el-input v-model="temp.orderNo" placeholder="请填写排序"/>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="备注" prop="memo">-->
-<!--          <el-input-->
-<!--              v-model="temp.memo"-->
-<!--              :rows="2"-->
-<!--              placeholder="请填写备注"-->
-<!--              type="textarea"-->
-<!--          />-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="功能权限" prop="menuIdList">-->
-<!--          <role-tree v-model:value="temp.menuIdList" :data="menuList"/>-->
-<!--        </el-form-item>-->
-<!--      </el-form>-->
-<!--      <template #footer>-->
-<!--        <el-button @click="dialogFormVisible = false"> 取消</el-button>-->
-<!--        <el-button-->
-<!--            type="success"-->
-<!--            @click="dialogStatus === 'create' ? createData() : updateData()"-->
-<!--        >-->
-<!--          确定-->
-<!--        </el-button>-->
-<!--      </template>-->
-<!--    </el-dialog>-->
-<!--  </div>-->
-<!--</template>-->
+    <custom-table :data="list" :columns="columns" action showIndex @load="queryRoleList">
+      <template #handler="scope">
+        <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
+        <el-button size="small" type="danger" @click="handleDelete([scope.row.id])">删除</el-button>
+      </template>
+    </custom-table>
 
-<!--<script>-->
-<!--import {reactive, ref, toRefs} from "vue";-->
-<!--import useTable from "@/hooks/useTable";-->
-<!--import {ElMessage, ElMessageBox, ElNotification} from "element-plus";-->
-<!--import {deleteRole, getRoleList, saveRole, getMenus} from "@/api/role";-->
-<!--import {getMenuList} from "@/api/menu";-->
-<!--import {deepTree} from "@/utils";-->
+    <el-dialog
+        v-model="dialogFormVisible"
+        :close-on-click-modal="false"
+        :title="dialogTitleMap[dialogStatus]"
+        destroy-on-close
+        style="width: 650px"
+    >
+      <el-form ref="dataForm" :model="temp" :rules="rules" label-width="100px">
+        <el-form-item label="名称" prop="name">
+          <el-input v-model="temp.name" placeholder="请填写名称"/>
+        </el-form-item>
+        <el-form-item label="标识" prop="roleNo">
+          <el-input v-model="temp.roleNo" placeholder="请填写标识"/>
+        </el-form-item>
+        <el-form-item label="排序" prop="orderNo">
+          <el-input v-model="temp.orderNo" placeholder="请填写排序"/>
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input
+              v-model="temp.remark"
+              :rows="2"
+              placeholder="请填写备注"
+              type="textarea"
+          />
+        </el-form-item>
+        <el-form-item label="功能权限" prop="menuIdList">
+          <role-tree v-model:value="temp.menuIdList" :data="menuList"/>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="dialogFormVisible = false"> 取消</el-button>
+        <el-button
+            type="success"
+            @click="dialogStatus === 'create' ? createData() : updateData()"
+        >
+          确定
+        </el-button>
+      </template>
+    </el-dialog>
+  </el-card>
+</template>
 
-<!--export default {-->
-<!--  name: 'Role',-->
-<!--  setup() {-->
-<!--    const dataForm = ref(null);-->
-<!--    const state = reactive({-->
-<!--      list: [],-->
-<!--      searchKey: null,-->
-<!--      dialogTitleMap: {-->
-<!--        update: "Edit",-->
-<!--        create: "Create",-->
-<!--      },-->
-<!--      dialogStatus: "",-->
-<!--      dialogFormVisible: false,-->
+<script>
+export default {
+  name: 'role'
+}
+</script>
+<script setup>
+import {reactive, ref, toRefs} from "vue";
+import RoleService from "../../../api/role";
+import {ElMessage, ElMessageBox, ElNotification} from "element-plus";
+import MenuService from "../../../api/menu";
+import {deepTree} from "../../../core/utils/array";
 
-<!--      menuList: [],-->
-<!--      temp: {-->
-<!--        id: undefined,-->
-<!--        name: "",-->
-<!--        roleNo: "",-->
-<!--        orderNo: 0,-->
-<!--        memo: '',-->
-<!--        menuIdList: []-->
-<!--      },-->
-<!--      rules: {-->
-<!--        name: [{required: true, message: "名称必须", trigger: "blur"}],-->
-<!--        roleNo: [{required: true, message: "标识必须", trigger: "blur"}],-->
-<!--      },-->
-<!--    })-->
+const dataForm = ref(null)
+const dialogTitleMap = {
+  update: '编辑',
+  create: '新增'
+}
+const columns = [
+  {
+    prop: 'name',
+    label: '名称',
+  },
+  {
+    prop: 'roleNo',
+    label: '标识',
+  },
+  {
+    prop: 'orderNo',
+    label: '排序',
+  },
+]
+const list = ref([])
+const menuList = ref([])
+const state = reactive({
+  dialogFormVisible: false,
+  dialogStatus: '',
+  searchKey: '',
+  temp: {
+    id: undefined,
+    name: "",
+    roleNo: "",
+    orderNo: 0,
+    remark: '',
+    menuIdList: [],
+  },
+  rules: {
+    name: [{required: true, message: "名称必须", trigger: "blur"}],
+    roleNo: [{required: true, message: "标识必须", trigger: "blur"}],
+  },
+})
 
-<!--    // 查询角色列表-->
-<!--    const queryRoleList = async () => {-->
-<!--      let payload = {-->
-<!--        name: state.searchKey-->
-<!--      };-->
-<!--      const result = await getRoleList(payload)-->
-<!--      if (result.code === 10000) {-->
-<!--        state.list = result.data;-->
-<!--      }-->
-<!--    }-->
 
-<!--    const queryMenuList = async () => {-->
-<!--      const result = await getMenuList();-->
-<!--      if (result.code === 10000) {-->
-<!--        state.menuList = deepTree(result.data);-->
-<!--      }-->
-<!--    };-->
+// 查询角色列表
+const queryRoleList = async () => {
+  let payload = {
+    name: state.searchKey
+  };
+  const result = await RoleService.getRoleList(payload)
+  if (result.code === 200) {
+    list.value = result.data;
+  }
+}
 
-<!--    const handleDelete = (row) => {-->
-<!--      ElMessageBox.confirm(`是否删除角色 ${row.name}？`, '提示', {-->
-<!--        confirmButtonText: '确定',-->
-<!--        cancelButtonText: '取消',-->
-<!--        type: 'warning'-->
-<!--      }).then(async () => {-->
-<!--        await deleteRole(row.id)-->
-<!--        await queryRoleList();-->
-<!--        ElMessage.success('删除成功!')-->
-<!--      }).catch(() => {-->
-<!--        console.log('已取消删除');-->
-<!--      })-->
-<!--    }-->
 
-<!--    const resetTemp = () => {-->
-<!--      state.temp = {-->
-<!--        id: undefined,-->
-<!--        name: "",-->
-<!--        roleNo: "",-->
-<!--        orderNo: 0,-->
-<!--        memo: '',-->
-<!--        menuIdList: []-->
-<!--      }-->
-<!--    }-->
+const queryMenuList = async () => {
+  const result = await MenuService.getMenuList();
+  if (result.code === 200) {
+    menuList.value = deepTree(result.data);
+  }
+};
 
-<!--    const handleCreate = () => {-->
-<!--      resetTemp()-->
-<!--      state.dialogStatus = 'create';-->
-<!--      state.dialogFormVisible = true;-->
-<!--    }-->
+const handleDelete = (row) => {
+  ElMessageBox.confirm(`是否删除此项数据？`, '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(async () => {
+    ElMessage.success('删除成功!')
+  }).catch(() => {
+    console.log('已取消删除');
+  })
+}
 
-<!--    const handleEdit = async (row) => {-->
-<!--      state.temp = Object.assign({}, {-->
-<!--        id: row.id,-->
-<!--        name: row.name,-->
-<!--        roleNo: row.roleNo,-->
-<!--        orderNo: row.orderNo,-->
-<!--        memo: row.memo,-->
-<!--        menuIdList: []-->
-<!--      });-->
-<!--      const result = await getMenus(row.id)-->
-<!--      state.temp.menuIdList = result.data-->
-<!--      state.dialogStatus = "update";-->
-<!--      state.dialogFormVisible = true;-->
-<!--    };-->
+const resetTemp = () => {
+  state.temp = {
+    id: undefined,
+    name: "",
+    roleNo: "",
+    orderNo: 0,
+    remark: '',
+    menuIdList: [],
+  }
+}
 
-<!--    const createData = () => {-->
-<!--      dataForm.value.validate(async (valid) => {-->
-<!--        if (valid) {-->
-<!--          let role = {-->
-<!--            name: state.temp.name,-->
-<!--            roleNo: state.temp.roleNo,-->
-<!--            orderNo: state.temp.orderNo,-->
-<!--            memo: state.temp.memo,-->
-<!--            roleMenuIds: state.temp.menuIdList.toString()-->
-<!--          }-->
-<!--          await saveRole(role)-->
-<!--          await queryRoleList()-->
-<!--          state.dialogFormVisible = false;-->
-<!--          ElNotification({-->
-<!--            title: "Success",-->
-<!--            message: "创建成功",-->
-<!--            type: "success",-->
-<!--            duration: 2000,-->
-<!--          });-->
-<!--        }-->
-<!--      });-->
-<!--    }-->
+const handleCreate = () => {
+  resetTemp()
+  state.dialogStatus = 'create';
+  state.dialogFormVisible = true;
+}
 
-<!--    const updateData = () => {-->
-<!--      dataForm.value.validate(async (valid) => {-->
-<!--        if (valid) {-->
-<!--          let role = {-->
-<!--            id: state.temp.id,-->
-<!--            name: state.temp.name,-->
-<!--            roleNo: state.temp.roleNo,-->
-<!--            orderNo: state.temp.orderNo,-->
-<!--            // parentId: state.temp.parentId,-->
-<!--            memo: state.temp.memo,-->
-<!--            roleMenuIds: state.temp.menuIdList.toString()-->
-<!--          }-->
-<!--          await saveRole(role)-->
-<!--          await queryRoleList()-->
-<!--          state.dialogFormVisible = false;-->
-<!--          ElNotification({-->
-<!--            title: "Success",-->
-<!--            message: "更新完成",-->
-<!--            type: "success",-->
-<!--            duration: 2000,-->
-<!--          });-->
-<!--        }-->
-<!--      });-->
-<!--    }-->
+const handleEdit = async (row) => {
+  resetTemp()
+  const roleInfo = await RoleService.getRoleInfo(row.id)
+  let menuIdList = []
+  if (roleInfo.data.roleMenuIds) {
+    menuIdList = roleInfo.data.roleMenuIds.split(',').map(Number)
+  }
 
-<!--    let {refresh, handleSearch, formatter} = useTable({queryFn: queryRoleList})-->
+  state.temp = {
+    id: row.id,
+    name: row.name,
+    roleNo: row.roleNo,
+    orderNo: row.orderNo,
+    remark: row.remark,
+    menuIdList: menuIdList,
+  }
+  state.dialogStatus = "update";
+  state.dialogFormVisible = true;
+}
 
-<!--    refresh()-->
-<!--    queryMenuList()-->
+const createData = () => {
+  dataForm.value.validate(async (valid) => {
+    if (valid) {
+      state.dialogFormVisible = false;
+      ElNotification({
+        title: "角色",
+        message: "创建成功",
+        type: "success",
+        duration: 2000,
+      });
+    }
+  });
+}
 
-<!--    return {-->
-<!--      dataForm,-->
-<!--      ...toRefs(state),-->
-<!--      handleDelete,-->
-<!--      handleCreate,-->
-<!--      handleEdit,-->
-<!--      createData,-->
-<!--      updateData,-->
-<!--      refresh,-->
-<!--      handleSearch,-->
-<!--      formatter-->
-<!--    };-->
-<!--  },-->
-<!--};-->
-<!--</script>-->
+const updateData = () => {
+  dataForm.value.validate(async (valid) => {
+    if (valid) {
+      state.dialogFormVisible = false;
+      ElNotification({
+        title: "角色",
+        message: "更新完成",
+        type: "success",
+        duration: 2000,
+      });
+    }
+  });
+}
 
-<!--<style lang="scss" scoped>-->
-<!--.app-body {-->
-<!--  :deep .el-tag + .el-tag {-->
-<!--    margin-left: 10px;-->
-<!--    margin-bottom: 10px;-->
-<!--  }-->
-<!--}-->
-<!--</style>-->
+queryRoleList()
+queryMenuList()
+const {temp, rules, searchKey, dialogFormVisible, dialogStatus} = toRefs(state)
+</script>
+
+<style lang="scss" scoped></style>

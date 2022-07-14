@@ -2,7 +2,7 @@
   <div class="menu-icons">
     <el-popover
         ref="popover"
-        placement="bottom-start"
+        placement="bottom"
         popper-class="popper-menu-icon"
         trigger="click"
         width="480"
@@ -20,8 +20,12 @@
       </el-row>
 
       <template #reference>
-        <el-input :value="value" placeholder="请选择" readonly></el-input>
-        <svg-icon :name="value"/>
+        <div class="menu-content">
+          <el-input v-model="value" placeholder="请选择" class="menu-input" readonly/>
+          <div class="menu-icon">
+            <svg-icon :name="value"/>
+          </div>
+        </div>
       </template>
     </el-popover>
   </div>
@@ -29,6 +33,8 @@
 
 <script>
 import * as ElementIcons from '@element-plus/icons-vue'
+import {onMounted, reactive, ref, toRefs} from "vue";
+
 const iconsList = Object.keys(ElementIcons)
 
 export default {
@@ -49,6 +55,8 @@ export default {
     onMounted(() => {
       state.list = iconsList;
     });
+
+
     return {
       popover,
       ...toRefs(state),
@@ -59,9 +67,23 @@ export default {
 </script>
 
 <style lang="scss">
-.menu-icons{
+.menu-icons {
   width: 100%;
 }
+
+.menu-content {
+  display: flex;
+  align-items: center;
+
+  .menu-input {
+    width: 500px;
+  }
+
+  .menu-icon {
+    margin-left: 20px;
+  }
+}
+
 .popper-menu-icon {
   width: 480px;
   box-sizing: border-box;

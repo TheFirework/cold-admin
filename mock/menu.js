@@ -1,6 +1,6 @@
 export default [
     {
-        url: '/menu/list',
+        url: '/menu/dataList',
         method: 'get',
         response: () => {
             return {

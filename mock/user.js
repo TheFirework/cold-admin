@@ -42,4 +42,44 @@ export default [
             }
         },
     },
+    {
+        url: '/user/dataList/:current/:size',
+        method: 'POST',
+        response: () => {
+            return {
+                code: 200,
+                data:{
+                    records:[
+                        {
+                            id: '@id',
+                            phone: '@phone',
+                            email: '@email',
+                            region: '@region',
+                            nickname: '@cname',
+                            roleIds:'1,2'
+                        },
+                        {
+                            id: '@id',
+                            phone: '@phone',
+                            email: '@email',
+                            region: '@region',
+                            nickname: '@cname',
+                            roleIds:'1,2'
+                        },
+                        {
+                            id: '@id',
+                            phone: '@phone',
+                            email: '@email',
+                            region: '@region',
+                            nickname: '@cname',
+                            roleIds:'1,2'
+                        },
+                    ],
+                    total:300,
+                    size:10,
+                    current:1
+                }
+            }
+        },
+    }
 ]
